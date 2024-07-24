@@ -1,0 +1,50 @@
+{
+	"name": "pydantic-settings-azure-app-configuration",
+	"image": "python:3.12-bookworm",
+	"postCreateCommand": "pip install --root-user-action=ignore uv && uv venv",
+	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+	"postAttachCommand": "uv pip install --requirement pyproject.toml --requirement requirements-dev.txt",
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/azure-cli:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"charliermarsh.ruff",
+				"github.vscode-github-actions",
+				"ms-toolsai.jupyter"
+			],
+			"settings": {
+				"files.associations": {
+					"*.py": "python"
+				},
+				"editor.codeActionsOnSave": {
+					"source.fixAll": "always",
+					"source.organizeImports": "always"
+				},
+				"editor.formatOnSave": true,
+				"editor.formatOnType": true,
+				"[python]": {
+					"editor.defaultFormatter": "charliermarsh.ruff"
+				},
+				"[ipynb]": {
+					"editor.defaultFormatter": "charliermarsh.ruff"
+				},
+				"python.defaultInterpreterPath": ".venv/bin/python",
+				"python.languageServer": "Pylance",
+				"python.analysis.autoSearchPaths": true,
+				"python.analysis.autoImportCompletions": true,
+				"python.testing.pytestEnabled": true,
+				"jupyter.notebookFileRoot": "${workspaceFolder}",
+				"notebook.formatOnSave.enabled": true,
+				"notebook.formatOnCellExecution": true,
+				"notebook.codeActionsOnSave": {
+					"notebook.source.fixAll": "explicit",
+					"notebook.source.organizeImports": "explicit"
+				}
+			}
+		}
+	}
+}

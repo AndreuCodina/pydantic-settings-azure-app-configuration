@@ -32,17 +32,7 @@ import os
 from azure.identity import DefaultAzureCredential
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, PydanticBaseSettingsSource
-from src.pydantic_settings_azure_app_configuration.source import (
-    AzureAppConfigurationSettingsSource,
-)
-
-
-import os
-
-from azure.identity import DefaultAzureCredential
-from pydantic import BaseModel
-from pydantic_settings import BaseSettings, PydanticBaseSettingsSource
-from src.pydantic_settings_azure_app_configuration.source import (
+from pydantic_settings_azure_app_configuration.source import (
     AzureAppConfigurationSettingsSource,
 )
 

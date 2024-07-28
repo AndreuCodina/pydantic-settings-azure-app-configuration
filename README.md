@@ -2,7 +2,6 @@
 
 [![pypi](https://img.shields.io/pypi/v/pydantic-settings-azure-app-configuration.svg)](https://pypi.python.org/pypi/pydantic-settings-azure-app-configuration)
 [![license](https://img.shields.io/github/license/AndreuCodina/pydantic-settings-azure-app-configuration.svg)](https://github.com/AndreuCodina/pydantic-settings-azure-app-configuration/blob/main/LICENSE)
-[![versions](https://img.shields.io/pypi/pyversions/pydantic-settings-azure-app-configuration.svg)](https://github.com/AndreuCodina/pydantic-settings-azure-app-configuration)
 
 ## Introduction
 

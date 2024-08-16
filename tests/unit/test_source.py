@@ -6,10 +6,11 @@ from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import KeyVaultSecret, SecretProperties
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, PydanticBaseSettingsSource
+from pytest_mock import MockerFixture
+
 from pydantic_settings_azure_app_configuration.source import (
     AzureAppConfigurationSettingsSource,
 )
-from pytest_mock import MockerFixture
 
 _PREFIX = "my_api__"
 

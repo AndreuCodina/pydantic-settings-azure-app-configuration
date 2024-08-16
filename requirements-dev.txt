@@ -1,5 +1,5 @@
 pyright==1.1.375
-ruff==0.5.7
+ruff==0.6.0
 jupyter==1.0.0
 pytest==8.3.2
 pytest-mock==3.14.0

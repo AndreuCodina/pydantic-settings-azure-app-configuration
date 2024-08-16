@@ -23,7 +23,7 @@ class AzureAppConfigurationKeyFilter:
 
 
 class AzureAppConfigurationKeyVaultOptions:
-    credential: Optional[TokenCredential]
+    credential: Optional[TokenCredential] = None
 
     def set_credential(self, credential: TokenCredential) -> Self:
         self.credential = credential
@@ -31,20 +31,12 @@ class AzureAppConfigurationKeyVaultOptions:
 
 
 class AzureAppConfigurationOptions:
-    url: Optional[str]
-    credential: Optional[TokenCredential]
-    connection_string: Optional[str]
-    key_selectors: list[_AzureAppConfigurationKeySelector]
-    prefixes_to_trim: list[str]
-    key_vault_options: Optional[AzureAppConfigurationKeyVaultOptions]
-
-    def __init__(self) -> None:
-        self.url = None
-        self.credential = None
-        self.connection_string = None
-        self.key_selectors = []
-        self.prefixes_to_trim = []
-        self.key_vault_options = None
+    url: Optional[str] = None
+    credential: Optional[TokenCredential] = None
+    connection_string: Optional[str] = None
+    key_selectors: list[_AzureAppConfigurationKeySelector] = []
+    prefixes_to_trim: list[str] = []
+    key_vault_options: Optional[AzureAppConfigurationKeyVaultOptions] = None
 
     def connect_with_url(self, url: str, credential: TokenCredential) -> Self:
         self.url = url
@@ -80,7 +72,7 @@ class AzureAppConfigurationOptions:
 
 class AzureAppConfigurationSettingsSource(EnvSettingsSource):
     _configure: Callable[[AzureAppConfigurationOptions], AzureAppConfigurationOptions]
-    _options: Optional[AzureAppConfigurationOptions]
+    _options: Optional[AzureAppConfigurationOptions] = None
 
     def __init__(
         self,
@@ -93,7 +85,6 @@ class AzureAppConfigurationSettingsSource(EnvSettingsSource):
         env_parse_enums: Optional[bool] = None,
     ) -> None:
         self._configure = configure
-        self._options = None
         super().__init__(
             settings_cls,
             case_sensitive=True,

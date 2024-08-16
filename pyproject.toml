@@ -26,10 +26,6 @@ packages = ["src/pydantic_settings_azure_app_configuration"]
 [tool.pyright]
 typeCheckingMode = "strict"
 
-[tool.ruff]
-src = ["src", "tests"]
-extend-include = ["*.ipynb"]
-
 [tool.ruff.lint]
 select = ["F", "E", "W", "N", "I", "ANN"]
 ignore = ["E501", "ANN101", "ANN102", "ANN401"]

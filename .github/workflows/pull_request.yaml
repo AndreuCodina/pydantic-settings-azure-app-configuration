@@ -18,7 +18,7 @@ jobs:
           python-version-file: pyproject.toml
 
       - name: Install uv
-        run: pip install --root-user-action=ignore uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
         shell: bash
 
       - name: Install Python packages

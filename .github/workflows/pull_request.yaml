@@ -25,15 +25,19 @@ jobs:
         run: uv pip install --system --requirement pyproject.toml --requirement requirements-dev.txt
         shell: bash
       
-      - name: Run linter and formatter
-        run: python -m ruff check .
-        shell: bash
-      
-      - name: Run type checker
-        run: python -m pyright .
+      - name: Linter
+        run: python -m ruff check
         shell: bash
 
-      - name: Run unit tests
+      - name: Formatter
+        run: python -m ruff format --check
+        shell: bash
+      
+      - name: Type checker
+        run: python -m pyright
+        shell: bash
+
+      - name: Unit tests
         run: python -m pytest tests/unit
         shell: bash
   

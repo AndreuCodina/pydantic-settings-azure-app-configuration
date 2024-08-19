@@ -34,10 +34,10 @@ jobs:
         shell: bash
       
       - name: Type checker
-        run: python -m pyright .
+        run: python -m pyright
         shell: bash
 
-      - name: Run unit tests
+      - name: Unit tests
         run: python -m pytest tests/unit
         shell: bash
   

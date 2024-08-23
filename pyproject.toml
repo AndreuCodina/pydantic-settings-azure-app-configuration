@@ -12,6 +12,16 @@ dependencies = [
     "azure-identity>=1.17.1",
 ]
 
+[tool.uv]
+dev-dependencies = [
+    "pyright==1.1.377",
+    "ruff==0.6.2",
+    "jupyter==1.0.0",
+    "pytest==8.3.2",
+    "pytest-mock==3.14.0",
+    "pytest-cov==5.0.0",
+]
+
 [project.urls]
 Repository = "https://github.com/AndreuCodina/pydantic-settings-azure-app-configuration"
 Documentation = "https://github.com/AndreuCodina/pydantic-settings-azure-app-configuration"

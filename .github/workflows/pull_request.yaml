@@ -3,7 +3,7 @@ name: Pull request
 on:
   pull_request:
     branches:
-        - main
+      - main
 
 jobs:
   continous-integration:
@@ -15,32 +15,32 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v5
         with:
-          python-version-file: pyproject.toml
+          python-version-file: .python-version
 
       - name: Install uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+        run: curl -LsSf https://astral.sh/uv/0.3.2/install.sh | sh
         shell: bash
 
       - name: Install Python packages
-        run: uv pip install --system --requirement pyproject.toml --requirement requirements-dev.txt
+        run: uv sync --dev
         shell: bash
-      
+
       - name: Linter
-        run: python -m ruff check
+        run: uv run ruff check
         shell: bash
 
       - name: Formatter
-        run: python -m ruff format --check
+        run: uv run ruff format --check
         shell: bash
-      
+
       - name: Type checker
-        run: python -m pyright
+        run: uv run pyright
         shell: bash
 
       - name: Unit tests
-        run: python -m pytest tests/unit
+        run: uv run pytest tests/unit
         shell: bash
-  
+
   release:
     runs-on: ubuntu-latest
     needs: continous-integration
@@ -52,20 +52,20 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v5
         with:
-          python-version-file: pyproject.toml
+          python-version-file: .python-version
 
       - name: Install uv
-        run: pip install --root-user-action=ignore uv
+        run: curl -LsSf https://astral.sh/uv/0.3.2/install.sh | sh
         shell: bash
 
       - name: Install Hatch
         run: uv pip install --system hatch
         shell: bash
-      
+
       - name: Build package
         run: hatch build
         shell: bash
-      
+
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:

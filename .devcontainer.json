@@ -1,7 +1,7 @@
 {
 	"name": "pydantic-settings-azure-app-configuration",
 	"image": "python:3.12-bookworm",
-	"postCreateCommand": "curl -LsSf https://astral.sh/uv/0.4.10/install.sh | sh",
+	"postCreateCommand": "curl -LsSf https://astral.sh/uv/0.4.18/install.sh | sh",
 	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
 	"features": {
 		"ghcr.io/devcontainers/features/github-cli:1": {},

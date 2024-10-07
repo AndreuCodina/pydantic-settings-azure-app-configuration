@@ -11,6 +11,8 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12", "3.13"]
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,23 +28,23 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install Python packages
-        run: uv sync --python ${{ matrix.python-version }} --locked
+        run: uv sync --locked
         shell: bash
 
       - name: Linter
-        run: uv run --python ${{ matrix.python-version }} ruff check
+        run: uv run ruff check
         shell: bash
 
       - name: Formatter
-        run: uv run --python ${{ matrix.python-version }} ruff format --check
+        run: uv run ruff format --check
         shell: bash
 
       - name: Type checker
-        run: uv run --python ${{ matrix.python-version }} pyright
+        run: uv run pyright
         shell: bash
 
       - name: Unit tests
-        run: uv run --python ${{ matrix.python-version }} pytest tests/unit
+        run: uv run pytest tests/unit
         shell: bash
 
   release:

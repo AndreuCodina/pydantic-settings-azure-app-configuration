@@ -126,7 +126,7 @@ class AzureAppConfigurationSettingsSource(EnvSettingsSource):
         return env_vars
 
     def _get_configuration_client(self) -> AzureAppConfigurationClient:
-        assert self._options is not None
+        assert self._options is not None   
 
         if self._options.url is not None and self._options.credential is not None:
             return AzureAppConfigurationClient(

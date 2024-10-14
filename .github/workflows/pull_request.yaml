@@ -32,9 +32,9 @@ jobs:
         run: uv sync --locked
         shell: bash
 
-      - name: Linter1
-        run: uv run ruff check
-        shell: bash
+      # - name: Linter1
+      #   run: uv run ruff check
+      #   shell: bash
 
       - name: Linter2
         run: uv run ruff check --output-format github

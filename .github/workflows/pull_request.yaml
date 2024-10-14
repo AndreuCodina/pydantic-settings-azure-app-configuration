@@ -32,7 +32,7 @@ jobs:
         run: uv sync --locked
         shell: bash
 
-      - name: Pre-commit (linter, formatter and type checker)
+      - name: Pre-commit
         uses: pre-commit/action@v3.0.1
         with:
           extra_args: --all-files

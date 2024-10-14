@@ -37,7 +37,7 @@ jobs:
         shell: bash
 
       - name: Formatter
-        run: uv run ruff format --check
+        run: uv run ruff format --diff
         shell: bash
 
       - name: Type checker

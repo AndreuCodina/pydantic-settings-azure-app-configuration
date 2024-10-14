@@ -10,9 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12"] #, "3.13"]
+        python-version: ["3.12", "3.13"]
     env:
       UV_PYTHON: ${{ matrix.python-version }}
+      UV_NO_SYNC: 1
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,7 +22,7 @@ jobs:
         uses: astral-sh/setup-uv@v3
         with:
           version: "0.4.x"
-      
+
       - name: Install Python
         uses: actions/setup-python@v5
         with:
@@ -70,6 +71,5 @@ jobs:
         shell: bash
 
       - name: Publish to PyPI
-        run: uv publish ${{ secrets.PYPI_TOKEN }}
+        run: uv publish --token ${{ secrets.PYPI_TOKEN }}
         shell: bash
-

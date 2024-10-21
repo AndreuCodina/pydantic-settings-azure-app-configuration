@@ -31,9 +31,6 @@ Documentation = "https://github.com/AndreuCodina/pydantic-settings-azure-app-con
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/pydantic_settings_azure_app_configuration"]
-
 [tool.pyright]
 typeCheckingMode = "strict"
 

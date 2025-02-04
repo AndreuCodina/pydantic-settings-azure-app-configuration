@@ -3,21 +3,21 @@ repos:
     hooks:
       - id: ruff-linter
         name: Linter
-        entry: uv run ruff check
+        entry: uv run --frozen -- ruff check
         language: system
         types: [python]
         fail_fast: true
 
       - id: ruff-formatter
         name: Formatter
-        entry: uv run ruff format --diff
+        entry: uv run --frozen -- ruff format --diff
         language: system
         types: [python]
         fail_fast: true
 
       - id: pyright
         name: Type checker
-        entry: uv run pyright
+        entry: uv run --frozen -- pyright
         language: system
         types: [python]
         fail_fast: true

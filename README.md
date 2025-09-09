@@ -10,7 +10,7 @@ https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview
 ## Installation
 
 ```bash
-pip install pydantic-settings-azure-app-configuration
+uv add pydantic-settings-azure-app-configuration
 ```
 
 ## Usage

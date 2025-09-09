@@ -28,10 +28,10 @@ class _AzureKeyVaultSettings(BaseSettings):
     def settings_customise_sources(
         cls,
         settings_cls: type[BaseSettings],
-        init_settings: PydanticBaseSettingsSource,
-        env_settings: PydanticBaseSettingsSource,
-        dotenv_settings: PydanticBaseSettingsSource,
-        file_secret_settings: PydanticBaseSettingsSource,
+        init_settings: PydanticBaseSettingsSource,  # noqa: ARG003
+        env_settings: PydanticBaseSettingsSource,  # noqa: ARG003
+        dotenv_settings: PydanticBaseSettingsSource,  # noqa: ARG003
+        file_secret_settings: PydanticBaseSettingsSource,  # noqa: ARG003
     ) -> tuple[PydanticBaseSettingsSource, ...]:
         azure_credential = DefaultAzureCredential()
         azure_app_configuration = AzureAppConfigurationSettingsSource(
@@ -58,7 +58,7 @@ class TestSource:
             ConfigurationSetting(key=f"{_PREFIX}logging_level", value=expected_value),
             SecretReferenceConfigurationSetting(
                 key=f"{_PREFIX}sql_server__password",
-                secret_id="https://test.vault.azure.net/secrets/password",
+                secret_id="https://test.vault.azure.net/secrets/password",  # noqa: S106
             ),
             ConfigurationSetting(
                 key=f"{_PREFIX}sql_server__host", value=expected_value
@@ -74,4 +74,4 @@ class TestSource:
             return_value=key_vault_value,
         )
 
-        _AzureKeyVaultSettings()  # type: ignore
+        _AzureKeyVaultSettings()  # pyright: ignore[reportCallIssue]

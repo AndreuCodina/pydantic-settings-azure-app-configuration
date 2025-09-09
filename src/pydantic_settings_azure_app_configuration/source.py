@@ -1,4 +1,5 @@
-from typing import Callable, Mapping, Optional, Self
+from collections.abc import Callable, Mapping
+from typing import Self
 
 from azure.appconfiguration import (
     AzureAppConfigurationClient,
@@ -15,7 +16,7 @@ from pydantic_settings.sources import SettingsError
 
 class _AzureAppConfigurationKeySelector(BaseModel):
     key_filter: str
-    label_filter: Optional[str] = None
+    label_filter: str | None = None
 
 
 class AzureAppConfigurationKeyFilter:
@@ -23,7 +24,10 @@ class AzureAppConfigurationKeyFilter:
 
 
 class AzureAppConfigurationKeyVaultOptions:
-    credential: Optional[TokenCredential] = None
+    credential: TokenCredential | None
+
+    def __init__(self) -> None:
+        self.credential = None
 
     def set_credential(self, credential: TokenCredential) -> Self:
         self.credential = credential
@@ -31,12 +35,19 @@ class AzureAppConfigurationKeyVaultOptions:
 
 
 class AzureAppConfigurationOptions:
-    url: Optional[str] = None
-    credential: Optional[TokenCredential] = None
-    connection_string: Optional[str] = None
-    key_selectors: list[_AzureAppConfigurationKeySelector] = []
-    prefixes_to_trim: list[str] = []
-    key_vault_options: Optional[AzureAppConfigurationKeyVaultOptions] = None
+    url: str | None
+    credential: TokenCredential | None
+    connection_string: str | None
+    key_selectors: list[_AzureAppConfigurationKeySelector]
+    prefixes_to_trim: list[str]
+    key_vault_options: AzureAppConfigurationKeyVaultOptions | None
+
+    def __init__(self) -> None:
+        self.credential = None
+        self.connection_string = None
+        self.key_selectors = []
+        self.prefixes_to_trim = []
+        self.key_vault_options = None
 
     def connect_with_url(self, url: str, credential: TokenCredential) -> Self:
         self.url = url
@@ -47,7 +58,7 @@ class AzureAppConfigurationOptions:
         self.connection_string = connection_string
         return self
 
-    def select_key(self, key_filter: str, label_filter: Optional[str] = None) -> Self:
+    def select_key(self, key_filter: str, label_filter: str | None = None) -> Self:
         self.key_selectors.append(
             _AzureAppConfigurationKeySelector(
                 key_filter=key_filter, label_filter=label_filter
@@ -72,7 +83,7 @@ class AzureAppConfigurationOptions:
 
 class AzureAppConfigurationSettingsSource(EnvSettingsSource):
     _configure: Callable[[AzureAppConfigurationOptions], AzureAppConfigurationOptions]
-    _options: Optional[AzureAppConfigurationOptions] = None
+    _options: AzureAppConfigurationOptions | None
 
     def __init__(
         self,
@@ -80,11 +91,12 @@ class AzureAppConfigurationSettingsSource(EnvSettingsSource):
         configure: Callable[
             [AzureAppConfigurationOptions], AzureAppConfigurationOptions
         ],
-        env_nested_delimiter: Optional[str] = None,
-        env_parse_none_str: Optional[str] = None,
-        env_parse_enums: Optional[bool] = None,
+        env_nested_delimiter: str | None = None,
+        env_parse_none_str: str | None = None,
+        env_parse_enums: bool | None = None,  # noqa: FBT001, RUF100
     ) -> None:
         self._configure = configure
+        self._options = None
         super().__init__(
             settings_cls,
             case_sensitive=True,
@@ -98,7 +110,7 @@ class AzureAppConfigurationSettingsSource(EnvSettingsSource):
     def __repr__(self) -> str:
         return f"{AzureAppConfigurationSettingsSource.__name__}(env_nested_delimiter={self.env_nested_delimiter})"
 
-    def _load_env_vars(self) -> Mapping[str, Optional[str]]:
+    def _load_env_vars(self) -> Mapping[str, str | None]:
         self._options = AzureAppConfigurationOptions()
         self._configure(self._options)
         app_configuration_client = self._get_configuration_client()
@@ -110,7 +122,7 @@ class AzureAppConfigurationSettingsSource(EnvSettingsSource):
             if len(self._options.key_selectors) > 0
             else [default_key_selector]
         )
-        env_vars: dict[str, Optional[str]] = {}
+        env_vars: dict[str, str | None] = {}
 
         for key_selector in key_selectors:
             settings = app_configuration_client.list_configuration_settings(
@@ -132,14 +144,13 @@ class AzureAppConfigurationSettingsSource(EnvSettingsSource):
             return AzureAppConfigurationClient(
                 base_url=self._options.url, credential=self._options.credential
             )
-        elif self._options.connection_string is not None:
+        if self._options.connection_string is not None:
             return AzureAppConfigurationClient.from_connection_string(
                 self._options.connection_string
             )
 
-        raise SettingsError(
-            f"Use {AzureAppConfigurationOptions.connect_with_url.__name__} or {AzureAppConfigurationOptions.connect_with_connection_string.__name__} to specify how to connect to Azure App Configuration"
-        )
+        error_message = f"Use {AzureAppConfigurationOptions.connect_with_url.__name__} or {AzureAppConfigurationOptions.connect_with_connection_string.__name__} to specify how to connect to Azure App Configuration"
+        raise SettingsError(error_message)
 
     def _get_setting_key(self, setting: ConfigurationSetting) -> str:
         key = setting.key
@@ -158,7 +169,8 @@ class AzureAppConfigurationSettingsSource(EnvSettingsSource):
                 assert secret_id is not None
                 return self._get_key_vault_secret_value(secret_id)
             case FeatureFlagConfigurationSetting():
-                raise SettingsError("Feature flags are not supported")
+                error_message = "Feature flags are not supported"
+                raise SettingsError(error_message)
             case ConfigurationSetting():
                 return setting.value
 

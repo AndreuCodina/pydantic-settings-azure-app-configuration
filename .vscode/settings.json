@@ -16,13 +16,12 @@
     },
     "python.defaultInterpreterPath": ".venv/bin/python",
     "python.languageServer": "Pylance",
-    "python.analysis.autoSearchPaths": true,
-    "python.analysis.autoImportCompletions": true,
+    "python.analysis.languageServerMode": "full",
     "python.testing.pytestEnabled": true,
     "notebook.formatOnSave.enabled": true,
     "notebook.formatOnCellExecution": true,
     "notebook.codeActionsOnSave": {
         "notebook.source.fixAll": "explicit",
         "notebook.source.organizeImports": "explicit"
-    }
+    },
 }
